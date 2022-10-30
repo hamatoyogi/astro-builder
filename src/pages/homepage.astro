@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const apiKey = 'b5760280b2464ac990288c03c4b8b1bc';
+
+const handleError = (err: any) => {
+  console.log(err);
+  // The requested Builder content could not be found.
+  if (err.response.status === 404) {
+    return { data: null };
+  }
+  throw err;
+};
+
+const encodedUrl = encodeURIComponent('/homepage');
+
+const { data: pageData } = await fetch(
+  `https://cdn.builder.io/api/v1/html/page?apiKey=${apiKey}&url=${encodedUrl}`
+)
+  .then((res) => res.json())
+  .catch(handleError);
+---
+
+<Layout title='Welcome to Astro Builder'>
+  <h1>home page</h1>
+  <!-- <builder-component model='page' api-key={apiKey} />
+  <script async src='https://cdn.builder.io/js/webcomponents'></script> -->
+  <main set:html={pageData.html}></main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+</style>
