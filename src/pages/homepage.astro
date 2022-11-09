@@ -14,11 +14,12 @@ const handleError = (err: any) => {
 
 const encodedUrl = encodeURIComponent('/homepage');
 
-const { data: pageData } = await fetch(
-  `https://cdn.builder.io/api/v1/html/page?apiKey=${apiKey}&url=${encodedUrl}`
-)
-  .then((res) => res.json())
-  .catch(handleError);
+// HTML API attempt
+// const { data: pageData } = await fetch(
+//   `https://cdn.builder.io/api/v1/html/page?apiKey=${apiKey}&url=${encodedUrl}`
+// )
+//   .then((res) => res.json())
+//   .catch(handleError);
 
 const qwikPageData = await fetch(
   `https://cdn.builder.io/api/v1/qwik/page?apiKey=${apiKey}&url=${encodedUrl}`
@@ -26,11 +27,15 @@ const qwikPageData = await fetch(
   .then((res) => res.json())
   .catch(handleError);
 
-console.log(qwikPageData.html);
+// console.log(qwikPageData.html);
 ---
 
 <Layout title='Welcome to Astro Builder'>
   <h1>home page</h1>
+  <!-- HTML API Attempt -->
+  <!-- <main set:html={pageData.html}></main> -->
+
+  <!-- Builder web component for use with visual CMS -->
   <!-- <builder-component model='page' api-key={apiKey} />
   <script async src='https://cdn.builder.io/js/webcomponents'></script> -->
   <main set:html={qwikPageData.html}></main>
