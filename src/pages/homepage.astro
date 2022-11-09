@@ -1,7 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { BuilderReact } from '../components/ReactBuilder';
+import { builder } from '@builder.io/react';
 
 const apiKey = import.meta.env.BUILDER_API_KEY;
+
+// For React Builder
+builder.init(apiKey);
 
 const handleError = (err: any) => {
   console.log(err);
@@ -28,6 +33,9 @@ const qwikPageData = await fetch(
   .catch(handleError);
 
 // console.log(qwikPageData.html);
+
+// For React Component - doesn't work because no client hydration.
+// const builderJson = await builder.get('page', { url: '/homepage' }).promise();
 ---
 
 <Layout title='Welcome to Astro Builder'>
@@ -38,7 +46,14 @@ const qwikPageData = await fetch(
   <!-- Builder web component for use with visual CMS -->
   <!-- <builder-component model='page' api-key={apiKey} />
   <script async src='https://cdn.builder.io/js/webcomponents'></script> -->
-  <main set:html={qwikPageData.html}></main>
+
+  <!-- Qwik HTML -->
+  <!-- <main set:html={qwikPageData.html}></main> -->
+
+  <!-- React / Builder component -->
+  <!-- <BuilderReact builderJson={builderJson} /> -->
+
+  <BuilderReact client:only='react' />
 </Layout>
 
 <style>
